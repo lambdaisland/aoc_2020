@@ -58,6 +58,6 @@
              [7 1]
              [1 2]])
 
-(time apply * (for [s slopes]
-                (sled-down s real-input))))
+(time (apply * (for [s slopes]
+                 (sled-down s real-input)))))
 ;; => 5007658656
