@@ -1,4 +1,4 @@
-(ns src.lambdaisland.aoc-2020.puzzle03
+(ns lambdaisland.aoc-2020.puzzle03
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
@@ -39,7 +39,6 @@
       :else
       [my-map x y trees])))
 
-
 (defn sled-down [slope input]
   @(first
     (drop-while
@@ -59,5 +58,16 @@
              [1 2]])
 
 (time (apply * (for [s slopes]
-                 (sled-down s real-input)))))
+                 (sled-down s real-input))))
 ;; => 5007658656
+
+(let [xs (iterate (partial + 3) 1)
+      ys (iterate (partial + 1) 1)
+      m (input->map real-input)]
+  (->> (map (fn [x y]
+              (tree? m x y))
+            xs
+            ys)
+       (take-while some?)
+       (filter true?)
+       count))
