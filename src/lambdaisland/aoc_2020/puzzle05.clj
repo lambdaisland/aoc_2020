@@ -11,18 +11,9 @@
 ;; => 7
 
 (defn bits->num [bits]
-  (reduce (fn [num bit]
-            (-> num
-                (bit-shift-left 1)
-                (bit-or bit)))
-          0
-          (map chars bits)))
+  (reduce #(+ (* %1 2) %2) 0 (map chars bits)))
 
-(defn seat-id [code]
-  (let [[row col] (map bits->num (partition-all 7 code))]
-    (+ (* row 8) col)))
-
-(def seat-ids (map seat-id real-input))
+(def seat-ids (map bits->num real-input))
 
 (apply max seat-ids)
 ;; => 908

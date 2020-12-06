@@ -1,0 +1,18 @@
+# Day 5 
+
+## Alternative approaches
+
+### Parsing binary
+
+- build up a string of a binary number, then parseInt
+- instead of parseInt, use `(read-string (str "2r" num))`
+
+As predicted some people worked on the range, 
+
+- (loop [low ... high ...])
+- (range 0 127) + take / take-last
+- (vec (range 0 127)) + subvec
+
+### Finding the gap
+
+- Instead of partion-all, use `(map vec coll (next coll))`
