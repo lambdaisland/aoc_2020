@@ -8,6 +8,8 @@
 (reduce + (map (comp count set #(str/replace % "\n" "")) groups))
 ;; => 7110
 
+(reduce + (map (comp count distinct #(remove #{\newline} %)) groups))
+
 (def group (first groups))
 
 (transduce (map
