@@ -1,5 +1,6 @@
 (ns lambdaisland.aoc-2020.puzzle07
-  (:require [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]))
 
 ;; vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.
 ;; faded blue bags contain no other bags.

@@ -23,3 +23,7 @@
           (inc l)))
       (partition-all 2 1 (sort seat-ids)))
 ;; => 619
+
+(def bits [0 1 0 1 0 1])
+
+(reduce #(bit-or (bit-shift-left %1 1) %2) 0 bits)
