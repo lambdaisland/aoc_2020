@@ -22,6 +22,12 @@ L.LLLLL.LL")
 (def max-x (dec (count (first demo-layout))))
 (def max-y (dec (count demo-layout)))
 
+(defn getxy [grid x y]
+  (.nth ^clojure.lang.PersistentVector (.nth ^clojure.lang.PersistentVector grid x) y))
+
+(defn getxy* [^clojure.lang.PersistentVector grid ^clojure.lang.PersistentVector xy]
+  (.nth ^clojure.lang.PersistentVector (.nth grid (.nth xy 0)) (.nth xy 1)))
+
 (defn neighbours [x y max-x max-y]
   (for [x' (range (max 0 (dec x)) (inc (min max-x (inc x))))
         y' (range (max 0 (dec y)) (inc (min max-y (inc y))))
@@ -33,7 +39,7 @@ L.LLLLL.LL")
      (pos-score x y max-x max-y))
   ([layout x y max-x max-y]
    (reduce (fn [score coords]
-             (+ score (if (= 'O (get-in layout coords)) 1 0)))
+             (+ score (if (= 'O (getxy* layout coords)) 1 0)))
            0
            (neighbours x y max-x max-y))))
 
@@ -43,7 +49,7 @@ L.LLLLL.LL")
   ([layout max-x max-y]
    (mapv (fn [x]
            (mapv (fn [y]
-                   (case (get-in layout [x y])
+                   (case (getxy layout x y)
                      _ '_
                      L (if (= 0 (pos-score layout x y max-x max-y)) 'O 'L)
                      O (if (<= 4 (pos-score layout x y max-x max-y)) 'L 'O)))
@@ -114,7 +120,7 @@ L.LLLLL.LL")
          y (+ y dy)]
     (if (or (< x 0) (< y 0) (< max-x x) (< max-y y))
       0
-      (let [seat (get-in layout [x y])]
+      (let [seat (getxy layout x y)]
         (case seat
           L 0
           O 1
@@ -137,7 +143,7 @@ L.LLLLL.LL")
   ([layout max-x max-y]
    (mapv (fn [x]
            (mapv (fn [y]
-                   (let [sym (get-in layout [x y])]
+                   (let [sym (getxy layout x y)]
                      (if (= '_ sym)
                        '_
                        (case (compute-seat layout x y max-x max-y)

@@ -22,6 +22,8 @@ L.LLLLL.LL")
 (def demo-layout (parse-input demo-input))
 (def real-layout (parse-input (slurp (io/resource "puzzle_input_11.txt"))))
 
+
+;; The 8 cardinal directions, as [dx dy] pairs
 (def directions (for [x (range -1 2)
                       y (range -1 2)
                       :when (not= [x y] [0 0])]
@@ -30,6 +32,7 @@ L.LLLLL.LL")
 (defn empty-grid [dimx dimy]
   (vec (repeat dimx (vec (repeat dimy '_)))))
 
+;; Optimized (?) lookup in nested vector
 (defn getxy ^long [grid x y]
   (.nth ^clojure.lang.PersistentVector (.nth ^clojure.lang.PersistentVector grid x) y))
 
