@@ -19,8 +19,8 @@ L.LLLLL.LL")
 (def demo-layout (parse-input demo-input))
 (def real-layout (parse-input (slurp (io/resource "puzzle_input_11.txt"))))
 
-;; (def max-x (dec (count (first layout))))
-;; (def max-y (dec (count layout)))
+(def max-x (dec (count (first demo-layout))))
+(def max-y (dec (count demo-layout)))
 
 (defn neighbours [x y max-x max-y]
   (for [x' (range (max 0 (dec x)) (inc (min max-x (inc x))))
@@ -79,6 +79,8 @@ L.LLLLL.LL")
    (transduce (comp cat (map '{_ 0, L 0, O 1})) + (find-fix-point layout generation))))
 
 (comment
+  (generation demo-layout max-x max-y)
+
   (result1 demo-layout)
   (time (result1 real-layout)))
 ;; => 2552
@@ -150,6 +152,5 @@ L.LLLLL.LL")
   ;; => 2197
   (generation2 demo-layout 9 9)
 
-  (compu)
 
   )
