@@ -10,12 +10,14 @@ F11")
 
 (def pattern #"(\w)(\d+)")
 
-(def demo-parsed
+(defn parse-demo [d]
   (map (comp
         (fn [[i n]]
           [i (util/parse-long n)])
         #(next (re-find pattern %)))
-       (str/split-lines demo-input)))
+       (str/split-lines d)))
+
+(def demo-parsed (parse-demo demo-input))
 
 (def real-parsed (map (fn [[i n]]
                         [i (util/parse-long n)])
@@ -89,7 +91,7 @@ real-parsed
 (defn debug [f]
   (fn [state [i n]]
     (let [res (f state [i n])]
-      (println (format "%-4s %s %s" (str i n) (pr-str (first res)) (pr-str (second res))))
+      (println (format "%-4s %s %s" (str i n) (pr-str (vec (reverse (first res)))) (pr-str (vec (reverse (second res))))))
       res)))
 
 (def wp-start [1 10])
@@ -99,8 +101,44 @@ real-parsed
 ;; => [[-1062 844] [-100 4]]
 
 (manhatten (first (reduce handle2 [[0 0] wp-start] demo-parsed)))
-(manhatten (first (reduce handle2 [[0 0] wp-start] real-parsed)))
+(manhatten (first (reduce handle2 [[0 0] wp-start] (take 20 real-parsed))))
+;; => 1724
 ;; => 23960
 ;; => 26988
 
 (time (manhatten (first (reduce handle2 [[0 0] wp-start] (take 20 real-parsed)))))
+
+(def test-input "E5
+R90
+F2
+W10
+L180
+N7
+F4
+R270
+S3
+L90
+R180
+W8
+L270
+F5")
+
+(manhatten (first (reduce (debug handle2) [[0 0] wp-start]
+                          (parse-demo test-input))))
+;; => 216
+
+;;      ship  waypoint
+;; E5   [0 0]   [15 1]
+;; R90  [0 0]   [1 -15]
+;; F2   [2 -30] [1 -15]
+;; W10  [2 -30] [-9 -15]
+;; L180 [2 -30] [9 15]
+;; N7   [2 -30] [9 22]
+;; F4   [38 58] [9 22]
+;; R270 [38 58] [-22 9]
+;; S3   [38 58] [-22 6]
+;; L90  [38 58] [-6 -22]
+;; R180 [38 58] [6 22]
+;; W8   [38 58] [-2 22]
+;; L270 [38 58] [22 2]
+;; F5   [148 68] [22 2]
