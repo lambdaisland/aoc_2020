@@ -7,3 +7,7 @@
 (defn num-resource-seq [day]
   (with-open [rdr (io/reader (io/resource (format "puzzle_input_%02d.txt" day)))]
     (doall (map parse-long (line-seq rdr)))))
+
+(defn re-resource-seq [day re]
+  (with-open [rdr (io/reader (io/resource (format "puzzle_input_%02d.txt" day)))]
+    (doall (map #(next (re-find re %)) (line-seq rdr)))))
