@@ -127,6 +127,7 @@ F5")
                           (parse-demo test-input))))
 ;; => 216
 
+ff
 ;;      ship  waypoint
 ;; E5   [0 0]   [15 1]
 ;; R90  [0 0]   [1 -15]
