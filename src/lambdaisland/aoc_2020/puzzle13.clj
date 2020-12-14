@@ -57,8 +57,8 @@
 
 
 ;; Original attempt, incrementally filter the sequence... way too slow
-#_(defn narrow-cycle [bc [^long idx ^long bus]]
-    (filter #(= 0 (mod (+ ^long % idx) bus)) bc))
+(defn narrow-cycle [bc [^long idx ^long bus]]
+  (filter #(= 0 (mod (+ ^long % idx) bus)) bc))
 
 ;; Transducers couldn't save us either
 #_(defn narrow-cycle-xform [[^long idx ^long bus]]
